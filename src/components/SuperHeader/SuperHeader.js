@@ -6,6 +6,7 @@ import { COLORS } from '../../constants';
 import SearchInput from '../SearchInput';
 import UnstyledButton from '../UnstyledButton';
 import Icon from '../Icon';
+import {pxToRem} from "../../utils";
 
 const SuperHeader = () => {
   return (
@@ -26,10 +27,17 @@ const Wrapper = styled.div`
   font-size: 0.875rem;
   color: ${COLORS.gray[300]};
   background-color: ${COLORS.gray[900]};
+  display: flex;
+  align-items: center;
+  gap: ${pxToRem(24)};
+  height: ${pxToRem(40)};
+  padding: 0 ${pxToRem(32)};
+  
 `;
 
 const MarketingMessage = styled.span`
   color: ${COLORS.white};
+  margin-right: auto;
 `;
 
 const HelpLink = styled.a`
