@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 import { COLORS, WEIGHTS } from '../../constants';
-import { formatPrice, pluralize, isNewShoe } from '../../utils';
+import {formatPrice, pluralize, isNewShoe, pxToRem} from '../../utils';
 import Spacer from '../Spacer';
 
 const ShoeCard = ({
@@ -41,11 +41,16 @@ const ShoeCard = ({
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price onSale={variant === "on-sale"}>{formatPrice(price)}</Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          {variant === "on-sale" ? <SalePrice>{formatPrice(salePrice)}</SalePrice> : null}
         </Row>
+        {{
+          'on-sale': <SaleTag />,
+          'new-release': <ReleasedTag />
+        }[variant]}
       </Wrapper>
     </Link>
   );
@@ -56,10 +61,13 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+  position: relative;
+`;
 
 const ImageWrapper = styled.div`
-  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
 `;
 
 const Image = styled.img`
@@ -68,6 +76,8 @@ const Image = styled.img`
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Name = styled.h3`
@@ -75,7 +85,10 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  color: ${p => p.onSale ? COLORS.gray[700] : undefined};
+  text-decoration: ${p => p.onSale ? 'line-through' : undefined};
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
@@ -85,5 +98,25 @@ const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
 `;
+
+const Tag = styled.div`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  width: fit-content;
+  padding: 8px;
+  color: ${COLORS.white};
+  font-size: ${pxToRem(14)};
+  font-weight: ${WEIGHTS.bold};
+  border-radius: 2px;
+`
+
+const SaleTag = styled(Tag).attrs(() => ({children: "Sale"}))`
+  background-color: ${COLORS.primary};
+`
+
+const ReleasedTag = styled(Tag).attrs(() => ({children: "Just Released!"}))`
+  background-color: ${COLORS.secondary};
+`
 
 export default ShoeCard;
