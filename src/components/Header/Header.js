@@ -14,7 +14,7 @@ const Header = () => {
       <SuperHeader />
       <MainHeader>
         <PositionedLogo />
-        <Spacer minWidth={pxToRem(200)}/>
+        <Spacer />
         <Nav>
           <NavLink href="/sale">Sale</NavLink>
           <NavLink href="/new">New&nbsp;Releases</NavLink>
@@ -44,6 +44,7 @@ const Nav = styled.nav`
   justify-content: space-evenly;
   align-items: center;
   height: 72px;
+  margin-left: 100px;
 `;
 
 const NavLink = styled.a`

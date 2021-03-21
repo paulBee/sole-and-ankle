@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 `;
 
 const GridShoe = styled(ShoeCard)`
-  flex: 1 1 300px;
+  flex: 1;
   
 `
 

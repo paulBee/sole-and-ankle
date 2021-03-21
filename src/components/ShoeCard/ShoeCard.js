@@ -45,12 +45,16 @@ const ShoeCard = ({
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
-          {variant === "on-sale" ? <SalePrice>{formatPrice(salePrice)}</SalePrice> : null}
+          <Conditional when={variant === "on-sale"}>
+            <SalePrice>{formatPrice(salePrice)}</SalePrice>
+          </Conditional>
         </Row>
-        {{
-          'on-sale': <SaleTag />,
-          'new-release': <ReleasedTag />
-        }[variant]}
+        <Switch on={variant}>
+          {{
+            'on-sale': <SaleTag />,
+            'new-release': <ReleasedTag />
+          }}
+        </Switch>
       </Wrapper>
     </Link>
   );
@@ -63,6 +67,8 @@ const Link = styled.a`
 
 const Wrapper = styled.article`
   position: relative;
+  min-width: 250px;
+  max-width: 325px;
 `;
 
 const ImageWrapper = styled.div`
@@ -118,5 +124,8 @@ const SaleTag = styled(Tag).attrs(() => ({children: "Sale"}))`
 const ReleasedTag = styled(Tag).attrs(() => ({children: "Just Released!"}))`
   background-color: ${COLORS.secondary};
 `
+
+const Conditional = ({when, children}) => when ? children : null
+const Switch = ({on, children}) => children[on] ?? null
 
 export default ShoeCard;
